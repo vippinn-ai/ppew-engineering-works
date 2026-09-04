@@ -1,0 +1,142 @@
+@import "tailwindcss";
+
+@import "@fontsource-variable/archivo/wdth.css";
+@import "@fontsource/ibm-plex-sans/400.css";
+@import "@fontsource/ibm-plex-sans/500.css";
+@import "@fontsource/ibm-plex-sans/600.css";
+@import "@fontsource/ibm-plex-mono/400.css";
+@import "@fontsource/ibm-plex-mono/500.css";
+
+@theme {
+  /* Sampled directly from the company logo and brochure artwork */
+  --color-navy: #071c39;
+  --color-navy-deep: #04122a;
+  --color-navy-lift: #0d2b50;
+  --color-cyan: #009ee3;
+  --color-indigo: #2f2483;
+  --color-gse: #e9a21b;
+  --color-titanium: #c6d2de;
+  --color-paper: #f2f5f8;
+  --color-rule: #d7dfe8;
+  --color-ink: #101d2e;
+  --color-ink-soft: #4a5b70;
+
+  --font-display: "Archivo Variable", "Archivo", system-ui, sans-serif;
+  --font-sans: "IBM Plex Sans", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+  }
+  ::selection {
+    background: var(--color-cyan);
+    color: #fff;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-cyan);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+}
+
+/* ---------- Type ---------- */
+/* Archivo carries a width axis; the display sizes run slightly expanded so
+   headings read as machined rather than default-grotesque. */
+.d1 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-stretch: 112%;
+  font-size: clamp(2.5rem, 7.2vw, 5.25rem);
+  line-height: 0.94;
+  letter-spacing: -0.024em;
+}
+.d2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-stretch: 108%;
+  font-size: clamp(1.85rem, 3.6vw, 2.9rem);
+  line-height: 1.02;
+  letter-spacing: -0.018em;
+}
+.d3 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-stretch: 104%;
+  font-size: clamp(1.15rem, 1.7vw, 1.4rem);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+}
+.wordmark {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-stretch: 118%;
+  letter-spacing: 0.005em;
+}
+.lede {
+  font-size: clamp(1.02rem, 1.35vw, 1.2rem);
+  line-height: 1.55;
+  max-width: 56ch;
+}
+.mono {
+  font-family: var(--font-mono);
+  font-variant-ligatures: none;
+}
+
+/* ---------- Drawing sheet ---------- */
+/* A faint 40px grid, the way a hangar drawing sheet is ruled. Sits under the
+   hero only, so it reads as paper rather than decoration. */
+.sheet {
+  background-image: linear-gradient(
+      to right,
+      rgba(198, 210, 222, 0.055) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, rgba(198, 210, 222, 0.055) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* The catalogue reads as a parts table: cells sit on a hairline field so the
+   1px gaps become rules rather than card gutters. */
+.hairline-field {
+  background: var(--color-rule);
+  gap: 1px;
+}
+
+/* ---------- Single page-load reveal ---------- */
+@keyframes lift {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.lift {
+  animation: lift 0.62s cubic-bezier(0.22, 0.68, 0.28, 1) both;
+}
+
+input[type="search"]::-webkit-search-cancel-button {
+  appearance: none;
+}

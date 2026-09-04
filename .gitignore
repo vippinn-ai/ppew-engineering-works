@@ -1,0 +1,17 @@
+# Dependencies and build output
+source/node_modules/
+source/.next/
+source/out/
+source/local-preview/
+
+# Internal project handover notes — kept local, not published.
+# See the local copy at the repository root.
+HANDOVER.md
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.log
+
+# Local editor/agent scaffolding, not part of the deliverable
+.claude/
