@@ -41,6 +41,10 @@ jobs:
       - run: npx next build
         env:
           NEXT_PUBLIC_BASE_PATH: /${{ github.event.repository.name }}
+          # Production is Cloudflare Pages on ppengineeringworks.com. This copy
+          # is the same content on a different URL, so it stays out of search
+          # results rather than competing with the real domain.
+          NEXT_PUBLIC_NOINDEX: "1"
 
       - uses: actions/configure-pages@v5
 

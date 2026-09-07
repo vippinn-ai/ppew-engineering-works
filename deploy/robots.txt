@@ -1,3 +1,4 @@
-# Under client review — not for indexing yet.
-User-agent: *
-Disallow: /
+User-Agent: *
+Allow: /
+
+Sitemap: https://ppengineeringworks.com/sitemap.xml
