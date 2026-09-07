@@ -31,29 +31,46 @@ code and no Node runtime needed in production.
 
 Deploy `deploy/`, not `preview/`. See "Why there are two builds" below.
 
-### GitHub Pages
+### Live site — Cloudflare Pages
 
-Pushing to `main` builds and publishes the site automatically
-(`.github/workflows/deploy-pages.yml`). No manual upload; `deploy/` is not used
-by that workflow.
-
-A Pages *project* site is served from a subpath —
-`https://<user>.github.io/<repo>/` — rather than a domain root, so the build
-needs to know that prefix:
+Production is <https://ppengineeringworks.com>, a Cloudflare Pages project
+(`ppengineeringworks`) served from the domain root. Deployment is a direct
+upload of `deploy/`, from the repository root:
 
 ```bash
-NEXT_PUBLIC_BASE_PATH=/<repo-name> npm run build
+npx wrangler pages deploy deploy --project-name=ppengineeringworks --branch=main
 ```
 
-The workflow sets this from the repository name. Next's `basePath` rewrites
-framework assets but *not* raw `<img src="/...">`, so those go through
-`asset()` in `lib/asset.ts`. Leave the variable unset for a root domain, which
-is what `deploy/` is built for.
+Rebuild before deploying: `cd source && npm run build`, then copy `source/out`
+over `deploy/`.
 
-**The published site carries `noindex`** — `robots: { index: false }` in
-`app/layout.tsx` plus `public/robots.txt` — because the catalogue copy is
-transcribed from the brochure and not yet client-approved. Remove both when it
-is signed off.
+> **Use Wrangler, not the dashboard uploader.** Cloudflare's drag-and-drop zip
+> upload reported "140/140 files uploaded" and then served only the six
+> root-level files — every nested directory (`_next/`, `products/`, `img/`) was
+> dropped, leaving the site as unstyled HTML with no images. The zip was
+> verified correct. Wrangler handles the directory properly.
+
+`www` redirects to the apex with a 301 (Cloudflare Redirect Rule, query string
+preserved), so the canonical tag in `app/layout.tsx` points at the apex.
+
+### Serving from a subpath instead
+
+`deploy/` uses root-absolute paths. To host under a subpath rather than a domain
+root, set the prefix at build time:
+
+```bash
+NEXT_PUBLIC_BASE_PATH=/<subpath> npm run build
+```
+
+Next's `basePath` rewrites framework assets but *not* raw `<img src="/...">`, so
+those go through `asset()` in `lib/asset.ts`. Leave it unset for a root domain.
+
+### Keeping a copy out of search results
+
+`NEXT_PUBLIC_NOINDEX=1` at build time emits `noindex` plus a disallowing
+`robots.txt` (see `lib/site.ts`, `app/robots.ts`). Any second deployment of this
+content should set it, or it competes with the production domain for the same
+pages. Production must **not** set it.
 
 ---
 
