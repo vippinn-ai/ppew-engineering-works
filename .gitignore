@@ -15,3 +15,6 @@ Thumbs.db
 
 # Local editor/agent scaffolding, not part of the deliverable
 .claude/
+
+# Wrangler local state
+.wrangler/
