@@ -18,3 +18,7 @@ Thumbs.db
 
 # Wrangler local state
 .wrangler/
+
+# Raw photo not published and not committed: a third party's mobile number is
+# handwritten across the machine panel. The optimise script does not use it.
+photos/02-shop-floor-igloo-machine.jpg

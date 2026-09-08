@@ -42,8 +42,17 @@ if (build.status !== 0) process.exit(build.status ?? 1);
 await rm(DEST, { recursive: true, force: true });
 await cp(SRC, DEST, { recursive: true });
 
+// Every top-level folder in public/ is served from the site root, and
+// assetPrefix does not touch those paths. Deriving the list from the folder
+// rather than hard-coding it means adding a new asset directory cannot
+// silently ship a preview with broken images — which is exactly what happened
+// when public/facility was added.
+const publicDirs = (await readdir("public", { withFileTypes: true }))
+  .filter((e) => e.isDirectory())
+  .map((e) => e.name);
+
 const relativise = (text) =>
-  text.replaceAll('"/products/', '"./products/').replaceAll('"/img/', '"./img/');
+  publicDirs.reduce((acc, dir) => acc.replaceAll(`"/${dir}/`, `"./${dir}/`), text);
 
 for (const file of ["index.html", "404.html"]) {
   const p = path.join(DEST, file);

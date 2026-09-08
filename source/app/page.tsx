@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 import Catalogue from "@/components/Catalogue";
 import { Capabilities, Facility } from "@/components/Capabilities";
+import { Works } from "@/components/Works";
 import { RfqBar, Enquiry, Footer } from "@/components/Enquiry";
 import type { PlatformId } from "@/lib/catalog";
 
@@ -30,6 +31,7 @@ export default function Home() {
         />
         <Capabilities />
         <Facility />
+        <Works />
         <Enquiry rfq={rfq} />
       </main>
       <RfqBar rfq={rfq} onClear={() => setRfq([])} />
